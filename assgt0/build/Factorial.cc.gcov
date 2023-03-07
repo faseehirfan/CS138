@@ -1,0 +1,68 @@
+        -:    0:Source:Factorial.cc
+        -:    0:Graph:Factorial.gcno
+        -:    0:Data:Factorial.gcda
+        -:    0:Runs:1
+        -:    1:#include <cstdlib>
+        -:    2:
+        -:    3:// This code is correct, so the tests will pass.
+        4:    4:int factorial_iterative(int n)
+        -:    5:{
+        4:    6:    int result = 1;
+        -:    7:
+       11:    8:    for (int i = 1; i <= n; i++)
+        -:    9:    {
+        7:   10:        result *= i;
+        -:   11:    }
+        -:   12:
+        4:   13:    return result;
+        -:   14:}
+        -:   15:
+        -:   16:// This code has a bug, so the tests will fail.
+       11:   17:int factorial_recursive(int n)
+        -:   18:{
+       11:   19:    if (n == 0)
+        -:   20:    {
+        4:   21:        return 1; // TODO 1: fix bug by returning 1 instead of 0
+        -:   22:    }
+        7:   23:    return n * factorial_recursive(n - 1);
+        -:   24:}
+        -:   25:
+        -:   26:// This code is correct, but has a memory leak.
+        -:   27:// So the tests will pass, but valgrind will complain.
+        2:   28:int factorial_memory_leak(int n)
+        -:   29:{
+        -:   30:    // allocate an array on the heap so we can have a leak
+        -:   31:    // we will only use the first element of this array
+        -:   32:    // array size 7 chosen arbitrarily
+        2:   33:    int *leaky = new int[7];
+        2:   34:    leaky[0] = 1;
+        -:   35:
+        8:   36:    for (int i = 1; i <= n; i++)
+        -:   37:    {
+        6:   38:        leaky[0] = leaky[0] * i;
+        -:   39:    }
+        -:   40:
+        -:   41:    // return the result (leak: but don't release the array memory)
+        -:   42:    // TODO 2: comment out this line and uncomment the alternate ending
+        -:   43:    // return leaky[0];
+        -:   44:
+        -:   45:    // TODO 2: uncomment this alternate ending that releases the array
+        2:   46:    int result = leaky[0];
+        2:   47:    delete[] leaky;
+        2:   48:    return result;
+        -:   49:}
+        -:   50:
+        -:   51:// There are no unit tests for this function,
+        -:   52:// so it will show up in the coverage report.
+        -:   53:// TODO 3: write a test for this in FactorialTest.cc
+        1:   54:int factorial_untested(int n)
+        -:   55:{
+        1:   56:    int result = 1;
+        -:   57:
+        3:   58:    for (int i = n; i > 0; i--)
+        -:   59:    {
+        2:   60:        result *= i;
+        -:   61:    }
+        -:   62:
+        1:   63:    return result;
+        -:   64:}
